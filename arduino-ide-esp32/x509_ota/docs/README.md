@@ -67,8 +67,9 @@ Edit [Config.h](../Config.h) and replace the placeholders with your own values:
 - Wi-Fi SSID
 - Wi-Fi password
 - Protonest device name
+- client certificate path
+- client private key path
 - application version if you want to report your own version string
-- certificate paths if you use different filenames
 
 ## LittleFS files required
 
@@ -79,25 +80,35 @@ When you download X.509 credentials from Protonest Connect, the ZIP file contain
 ```text
 example_x509.zip
 ├── root-ca.crt
-├── device-cert.pem
-├── device-key.pem
+├── <device>-cert.pem
+├── <device>-key.pem
 └── http-root-ca.pem
 ```
 
-Copy these files into the empty `data/` folder before uploading LittleFS:
+This example already includes these CA files:
 
 - `root-ca.crt`
 - `http-root-ca.pem`
-- `device-cert.pem`
-- `device-key.pem`
+
+You do not need to copy these CA files from the credential ZIP, but the same files are also visible inside the ZIP downloaded from the Protonest Connect console.
+
+Copy these files from the downloaded Protonest credential ZIP into `data/` before uploading LittleFS:
+
+- the client certificate file from the ZIP
+- the client private key file from the ZIP
+
+Then set these paths in [Config.h](../Config.h) using the actual filenames you copied into `data/`:
+
+```cpp
+constexpr char CLIENT_CERT_PATH[] = "/<device>-cert.pem";
+constexpr char CLIENT_KEY_PATH[] = "/<device>-key.pem";
+```
 
 The sketch uses:
 
 - `root-ca.crt` for `mqtt.protonest.co`
 - `http-root-ca.pem` for HTTPS OTA downloads from `https://api.protonestconnect.co/api/v1/ota/download/<otaId>/<device>?token=<token>`
-- `device-cert.pem` and `device-key.pem` for MQTT client authentication
-
-If you want to use different filenames, update the paths in `Config.h`.
+- the configured client certificate and private key for MQTT client authentication
 
 Recommended partition scheme:
 
@@ -171,7 +182,7 @@ Do not upload these files for Protonest OTA:
 
 1. Open [x509_ota.ino](../x509_ota.ino) in Arduino IDE.
 2. Edit [Config.h](../Config.h).
-3. Copy all required certificate files into `data/`.
+3. Confirm `data/root-ca.crt` and `data/http-root-ca.pem` are present, then copy the client certificate and private key from the ZIP into `data/`.
 4. Select the correct ESP32 board.
 5. Select `Arduino IDE > Tools > Partition Scheme > Minimal SPIFFS (1.9MB APP with OTA/128KB SPIFFS)`.
 6. Select the correct serial port.

@@ -39,16 +39,14 @@ PSA Username: example
 PSA Password: JvK82R17xQR!ZZx3K
 ```
 
-This file does not need to include a separate MQTT `client_id`. For this example, use:
+Replace only these values in [Config.h](../Config.h):
 
 ```text
 DEVICE_NAME = example
-MQTT_USERNAME = DEVICE_NAME
-MQTT_CLIENT_ID = DEVICE_NAME
 MQTT_PASSWORD = JvK82R17xQR!ZZx3K
 ```
 
-`root-ca.crt` goes into the example `data/` folder for LittleFS upload.
+This example already includes `root-ca.crt` at `data/root-ca.crt`. You do not need to copy it from the credential ZIP, but the same file is also visible inside the ZIP downloaded from the Protonest Connect console.
 
 `http-root-ca.pem` is included in the same ZIP for OTA examples. This subscribe example does not use it.
 
@@ -56,8 +54,6 @@ For this example, copy:
 
 - `PSA Username` into `DEVICE_NAME`
 - `PSA Password` into `MQTT_PASSWORD`
-
-`MQTT_USERNAME` and `MQTT_CLIENT_ID` already follow the same device name pattern used by this example.
 
 ## Files in this folder
 
@@ -82,17 +78,15 @@ Set `DEVICE_NAME` from `PSA Username` and `MQTT_PASSWORD` from `PSA Password`.
 
 This example reads the broker CA certificate from LittleFS.
 
-Copy the CA file from the downloaded Protonest credential ZIP into the empty `data/` folder before uploading LittleFS:
+This CA file is already provided in the local `data/` folder and is uploaded with LittleFS:
 
 - `root-ca.crt`
-
-If you want to use another filename, update `ROOT_CA_PATH` in `Config.h`.
 
 ## Upload steps
 
 1. Open [psk_subscribe.ino](../psk_subscribe.ino) in Arduino IDE.
 2. Edit [Config.h](../Config.h).
-3. Copy the CA file `root-ca.crt` from the downloaded Protonest credential ZIP into `data/`.
+3. Confirm `data/root-ca.crt` is present.
 4. Select the correct ESP32 board.
 5. Select the correct serial port.
 6. Close Serial Monitor.

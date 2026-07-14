@@ -82,10 +82,12 @@ example_psk.zip
 └── http-root-ca.pem
 ```
 
-Create a `data/` folder inside `psk_ota` before uploading LittleFS, then copy in:
+This example already includes these CA files:
 
 - `root-ca.crt`
 - `http-root-ca.pem`
+
+You do not need to copy these CA files from the credential ZIP, but the same files are also visible inside the ZIP downloaded from the Protonest Connect console.
 
 How they are used:
 
@@ -114,13 +116,12 @@ If your compiled firmware does not fit inside one OTA app slot, OTA will fail.
 
 1. Open [psk_ota.ino](../psk_ota.ino) in Arduino IDE.
 2. Edit [Config.h](../Config.h).
-3. Create a local `data/` folder in the example directory.
-4. Copy `root-ca.crt` and `http-root-ca.pem` into `data/`.
-5. Select the correct ESP32 board.
-6. Select an OTA-capable partition scheme.
-7. Close Serial Monitor.
-8. Upload `data/` to LittleFS.
-9. Upload the sketch.
+3. Confirm `data/root-ca.crt` and `data/http-root-ca.pem` are present.
+4. Select the correct ESP32 board.
+5. Select an OTA-capable partition scheme.
+6. Close Serial Monitor.
+7. Upload `data/` to LittleFS.
+8. Upload the sketch.
 
 ## OTA topic and payload
 

@@ -38,12 +38,13 @@ After the `connect` example works, you can test publish and subscribe in either 
 ## Shared Notes
 
 - All examples use LittleFS for certificate and TLS-related files.
-- The per-example guide tells you which files belong in that example's local `data/` folder before the LittleFS upload. Create the `data/` folder if it is not present.
+- Each example includes `data/root-ca.crt` for MQTT broker TLS verification. The same file is also visible in the credential ZIP downloaded from the Protonest Connect console.
+- The per-example guide tells you which additional files belong in that example's local `data/` folder before the LittleFS upload.
 - Downloaded PSK and X.509 ZIP files include `http-root-ca.pem`. The OTA examples use it for HTTPS firmware downloads.
 - PSK examples use the device name as both the MQTT `client_id` and MQTT username.
 - X.509 examples use the device name as the MQTT `client_id` and do not use MQTT username or password.
 - For X.509, keep `DEVICE_NAME`, MQTT client ID, the registered device identity, and the client certificate identity aligned.
-- Do not commit real Wi-Fi credentials, MQTT passwords, certificates, or private keys.
+- Do not commit real Wi-Fi credentials, MQTT passwords, device certificates, or private keys.
 
 ## MQTT Topic Rules
 

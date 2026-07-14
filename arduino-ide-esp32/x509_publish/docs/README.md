@@ -31,8 +31,9 @@ Edit [Config.h](../Config.h) and replace the placeholders with your own values:
 - Wi-Fi SSID
 - Wi-Fi password
 - Protonest device name
+- client certificate path
+- client private key path
 - stream name if you want a different telemetry channel
-- certificate paths if you use different filenames
 
 ## Protonest X.509 credential files
 
@@ -41,30 +42,36 @@ When you download X.509 credentials from Protonest Connect, the ZIP file contain
 ```text
 example_x509.zip
 ├── root-ca.crt
-├── device-cert.pem
-├── device-key.pem
+├── <device>-cert.pem
+├── <device>-key.pem
 └── http-root-ca.pem
 ```
 
 `http-root-ca.pem` is included in the same ZIP for OTA examples. This publish example does not use it.
 
+This example already includes `root-ca.crt` at `data/root-ca.crt`. You do not need to copy it from the credential ZIP, but the same file is also visible inside the ZIP downloaded from the Protonest Connect console.
+
 ## LittleFS files required
 
 This example reads all TLS assets from LittleFS.
 
-Copy these files into the empty `data/` folder before uploading LittleFS:
+Copy these device credential files into `data/` before uploading LittleFS:
 
-- `root-ca.crt`
-- `device-cert.pem`
-- `device-key.pem`
+- the client certificate file from the ZIP
+- the client private key file from the ZIP
 
-If you want to use different filenames, update the paths in `Config.h`.
+Then set these paths in [Config.h](../Config.h) using the actual filenames you copied into `data/`:
+
+```cpp
+constexpr char CLIENT_CERT_PATH[] = "/<device>-cert.pem";
+constexpr char CLIENT_KEY_PATH[] = "/<device>-key.pem";
+```
 
 ## Upload steps
 
 1. Open [x509_publish.ino](../x509_publish.ino) in Arduino IDE.
 2. Edit [Config.h](../Config.h).
-3. Copy `root-ca.crt`, `device-cert.pem`, and `device-key.pem` into `data/`.
+3. Confirm `data/root-ca.crt` is present, then copy the client certificate and private key from the ZIP into `data/`.
 4. Select the correct ESP32 board.
 5. Select the correct serial port.
 6. Close Serial Monitor.

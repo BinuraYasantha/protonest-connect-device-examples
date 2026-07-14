@@ -40,7 +40,7 @@ This example does not publish or subscribe to application topics yet. It is only
 
 - [psk_connect.ino](../psk_connect.ino): Wi-Fi, TLS, MQTT connect, and status loop
 - [Config.h](../Config.h): Wi-Fi settings, device name, MQTT password, broker host, and certificate path
-- `data/`: LittleFS upload folder for `root-ca.crt`
+- `data/`: LittleFS upload folder containing `root-ca.crt`
 - [docs/README.md](README.md): usage guide for this example
 
 ## Before you start
@@ -81,16 +81,14 @@ PSA Username: example
 PSA Password: JvK82R17xQR!ZZx3K
 ```
 
-Map those values into this sketch like this:
+Replace only these values in [Config.h](../Config.h):
 
 ```text
 DEVICE_NAME = example
-MQTT_USERNAME = DEVICE_NAME
-MQTT_CLIENT_ID = DEVICE_NAME
 MQTT_PASSWORD = JvK82R17xQR!ZZx3K
 ```
 
-`root-ca.crt` must be uploaded to LittleFS for this connect example.
+This example already includes `root-ca.crt` at `data/root-ca.crt`. You do not need to copy it from the credential ZIP, but the same file is also visible inside the ZIP downloaded from the Protonest Connect console.
 
 `http-root-ca.pem` is included in the same ZIP for OTA examples. This connect example does not use it.
 
@@ -103,21 +101,11 @@ Edit [Config.h](../Config.h) and replace the repo values with your own:
 - `DEVICE_NAME`
 - `MQTT_PASSWORD`
 
-Optional:
-
-- `ROOT_CA_PATH` if you want to store the CA file under a different name in LittleFS
-
-Important:
-
-- do not commit real Wi-Fi credentials or MQTT passwords
-- `DEVICE_NAME` should match the Protonest PSK username
-- this sketch expects the MQTT username and client ID to be the same device name
-
 ## LittleFS file required
 
 This example reads the broker CA certificate from LittleFS.
 
-Copy this file into the local `data/` folder before uploading the filesystem:
+This file is already provided in the local `data/` folder and is uploaded with LittleFS:
 
 - `root-ca.crt`
 
@@ -127,13 +115,11 @@ The default path expected by the sketch is:
 /root-ca.crt
 ```
 
-If you use another filename, update `ROOT_CA_PATH` in [Config.h](../Config.h).
-
 ## Upload workflow
 
 1. Open [psk_connect.ino](../psk_connect.ino) in Arduino IDE.
 2. Edit [Config.h](../Config.h).
-3. Copy `root-ca.crt` into the example `data/` folder.
+3. Confirm `data/root-ca.crt` is present.
 4. Select the correct ESP32 board.
 5. Select the correct serial port.
 6. Close Serial Monitor.
@@ -190,9 +176,8 @@ TLS setup depends on correct time. If NTP never succeeds, check:
 
 Check:
 
-- `root-ca.crt` was copied into `data/`
+- `root-ca.crt` is present at `data/root-ca.crt`
 - the LittleFS upload completed before sketch upload
-- `ROOT_CA_PATH` matches the uploaded filename
 
 ### MQTT authentication fails
 
